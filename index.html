@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Volunteer Vet Collective</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Volunteer Vet Collective raises money for a different animal organisation at a time, films the work, and posts every receipt.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: story-led single page. A deep-teal hero carries the live tally, then case-file chapters, a ledger of receipts, and the about section. */
+:root{
+  --bg:#F4F7F5; --surface:#FFFFFF; --ink:#13221E; --muted:#4D5E58; --line:#D6E0DB;
+  --brand:#0F4C45; --hero-bg:#0F4C45; --hero-ink:#F2F6F3; --hero-muted:#BFD3CC;
+  --accent:#E8893A; --on-accent:#13221E; --track:#D6E0DB; --hero-track:rgba(242,246,243,.22);
+  --slot:#E3EBE7; --slot-ink:#4D5E58;
+  --display:"Space Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --wrap:1120px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1715; --surface:#15211E; --ink:#E5EDE9; --muted:#9FB2AB; --line:#27362F;
+  --brand:#6CC0B2; --hero-bg:#0F2E2A; --hero-ink:#EEF4F1; --hero-muted:#A9C4BB;
+  --accent:#F0A15E; --on-accent:#13221E; --track:#27362F; --hero-track:rgba(238,244,241,.18);
+  --slot:#1B2A26; --slot-ink:#9FB2AB; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1715; --surface:#15211E; --ink:#E5EDE9; --muted:#9FB2AB; --line:#27362F;
+  --brand:#6CC0B2; --hero-bg:#0F2E2A; --hero-ink:#EEF4F1; --hero-muted:#A9C4BB;
+  --accent:#F0A15E; --on-accent:#13221E; --track:#27362F; --hero-track:rgba(238,244,241,.18);
+  --slot:#1B2A26; --slot-ink:#9FB2AB; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--hero-bg)}
+h1,h2,h3{font-family:var(--display);line-height:1.1;text-wrap:balance;margin:0}
+p{margin:0}
+a{color:var(--brand)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+.wrap{max-width:var(--wrap);margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.eyebrow{font:500 13px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+
+/* Header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--hero-bg);color:var(--hero-ink)}
+.top .wrap{display:flex;align-items:center;gap:20px;padding-block:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;color:inherit;text-decoration:none;font:700 18px/1 var(--display);letter-spacing:.01em}
+.brand svg{width:30px;height:34px;flex:none}
+.nav{display:flex;gap:4px 18px;flex-wrap:wrap;margin-left:auto;align-items:center}
+.nav a{color:var(--hero-ink);text-decoration:none;font-weight:500;font-size:15px;padding:8px 2px}
+.nav a:hover{text-decoration:underline;text-underline-offset:4px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 22px;border-radius:999px;background:var(--accent);color:var(--on-accent);font:700 16px/1 var(--display);text-decoration:none;border:0;cursor:pointer}
+.btn:hover{filter:brightness(1.06)}
+.nav .btn{min-height:40px;padding:0 18px;font-size:15px}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.soon{opacity:.75;cursor:default;filter:none}
+
+/* Hero */
+.hero{background:var(--hero-bg);color:var(--hero-ink)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:48px;padding-block:56px 64px;align-items:center}
+.hero .eyebrow{color:var(--hero-muted)}
+.hero h1{font-size:clamp(42px,6.6vw,84px);margin-top:14px;letter-spacing:-.03em;line-height:1.02}
+.hero h1 .hl{color:var(--accent)}
+.hero .lede{margin-top:18px;max-width:34em;color:var(--hero-muted);font-size:18px}
+.tally{margin-top:30px;display:grid;gap:12px;max-width:520px}
+.tally-figs{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.tally-raised{font:700 clamp(40px,6vw,56px)/1 var(--display);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.tally-goal{color:var(--hero-muted);font-variant-numeric:tabular-nums}
+.bar{height:14px;border-radius:999px;background:var(--hero-track);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);border-radius:inherit;transition:width 1.2s cubic-bezier(.2,.7,.2,1)}
+.tally-note{font:400 13px/1.4 var(--mono);color:var(--hero-muted)}
+.hero .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.hero .btn.ghost{color:var(--hero-ink);border-color:var(--hero-track)}
+
+/* Photo slots: swap for real photos in the config below */
+.photo{position:relative;border-radius:18px;overflow:hidden;background:var(--slot);color:var(--slot-ink);aspect-ratio:4/5;max-width:100%;display:grid;place-items:center;text-align:center}
+.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.photo .slot{display:grid;gap:10px;justify-items:center;padding:24px;font:500 14px/1.4 var(--mono)}
+.photo .slot svg{width:54px;height:60px;opacity:.55}
+.hero .photo{background:rgba(255,255,255,.08);color:var(--hero-muted)}
+.photo.wide{aspect-ratio:3/2}
+.hero .photo{aspect-ratio:1/1}
+[data-photo="hero"] img{object-position:42% 12%}
+[data-photo="k9"] img{object-position:62% 60%}
+[data-photo="bravo"] img{object-position:50% 30%}
+[data-photo="bravo"]{width:100%;max-width:300px;aspect-ratio:3/4;justify-self:center}
+@media (max-width: 860px){[data-photo="bravo"]{max-width:200px}}
+.about .photo{aspect-ratio:1/1}
+[data-photo="charlie"] img{object-position:50% 30%}
+
+/* Story chapters */
+section{scroll-margin-top:84px}
+.chapter .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center;padding-block:72px}
+.chapter.flip .media{order:2}
+.chapter + .chapter .wrap{border-top:1px solid var(--line)}
+.chapter .eyebrow{color:var(--brand)}
+.chapter h2{font-size:clamp(28px,3.6vw,42px);margin-top:10px;letter-spacing:-.01em}
+.chapter .text{display:grid;gap:16px;max-width:34em}
+.chapter .text p{color:var(--muted)}
+
+/* Case file: the vet's chart for each animal */
+.chart{border:1.5px solid var(--line);border-radius:14px;background:var(--surface);overflow:hidden}
+.chart header{display:flex;justify-content:space-between;gap:12px;padding:12px 18px;border-bottom:1.5px dashed var(--line);font:500 12px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.chart dl{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:8px 20px;margin:0;padding:16px 18px}
+.chart dt{font:500 13px/1.6 var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.chart dd{margin:0;font-weight:500}
+.clip{margin:0;display:grid;gap:8px;max-width:340px}
+.clip video{width:100%;aspect-ratio:356/634;border-radius:14px;background:var(--slot);display:block}
+.clip figcaption{font:400 13px/1.4 var(--mono);color:var(--muted)}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;min-width:0}
+.pair img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:16px;display:block}
+.reel-wrap{display:grid;gap:10px;min-width:0}
+.reel{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;max-width:520px}
+.reel > *{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:12px;background:var(--slot);display:block}
+.reel-hint{font:400 13px/1.4 var(--mono);color:var(--muted)}
+.thumbs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.thumbs img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:12px;display:block}
+.chart-body{display:grid;grid-template-columns:clamp(110px,34%,220px) minmax(0,1fr)}
+.chart-body img{width:100%;height:100%;min-height:200px;object-fit:cover;display:block;border-right:1.5px dashed var(--line)}
+.chart .notes{display:grid;gap:12px;padding:16px 18px 20px;border-top:1.5px dashed var(--line)}
+.chart .notes h3{font:500 13px/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.chart .notes p{color:var(--ink);font-size:16px}
+@media (max-width: 480px){.chart dl{grid-template-columns:minmax(0,1fr);gap:2px 0;padding:12px 14px}.chart dd{margin-bottom:8px}.chart-body{grid-template-columns:minmax(0,1fr)}.chart-body img{height:auto;min-height:0;aspect-ratio:3/2;border-right:0;border-bottom:1.5px dashed var(--line)}}
+.chapter.solo .wrap{grid-template-columns:minmax(0,1fr);max-width:860px}
+.flag{display:inline-block;padding:2px 10px;border-radius:999px;background:var(--accent);color:var(--on-accent);font:600 12px/1.6 var(--mono);letter-spacing:.04em;text-transform:uppercase}
+
+/* Fundraisers */
+.band{background:var(--surface);border-block:1px solid var(--line)}
+.band .wrap{padding-block:72px;display:grid;gap:32px}
+.section-head{display:grid;gap:10px;max-width:40em}
+.section-head h2{font-size:clamp(28px,3.6vw,42px);letter-spacing:-.01em}
+.section-head p{color:var(--muted)}
+.fund-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:20px}
+.fund{display:grid;gap:14px;align-content:start;padding:24px;border:1.5px solid var(--line);border-radius:16px;background:var(--bg)}
+.fund .eyebrow{color:var(--brand)}
+.fund h3{font-size:24px}
+.fund p{color:var(--muted);font-size:16px}
+.fund .figs{display:flex;justify-content:space-between;gap:12px;font-variant-numeric:tabular-nums;font-size:15px}
+.fund .figs b{font:700 22px/1 var(--display)}
+.fund .bar{background:var(--track);height:10px}
+.fund .btn{justify-self:start}
+
+/* Receipts ledger */
+.ledger-wrap{overflow-x:auto;border:1.5px solid var(--line);border-radius:16px;background:var(--surface)}
+.ledger{width:100%;border-collapse:collapse;min-width:640px;font-variant-numeric:tabular-nums}
+.ledger th{text-align:left;font:500 12px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:14px 18px;border-bottom:1.5px solid var(--line)}
+.ledger td{padding:16px 18px;border-bottom:1px solid var(--line);vertical-align:top}
+.ledger tr:last-child td{border-bottom:0}
+.ledger .num{text-align:right;font-family:var(--mono)}
+.ledger th.num{text-align:right}
+.org{font-weight:600}
+.when{display:block;color:var(--muted);font-size:14px}
+.status{display:inline-block;padding:2px 10px;border-radius:999px;font:600 12px/1.6 var(--mono);letter-spacing:.04em;text-transform:uppercase;border:1.5px solid var(--line);color:var(--muted)}
+.status.sent{background:var(--brand);border-color:var(--brand);color:var(--bg)}
+.linkbtn{background:none;border:0;padding:0;color:var(--brand);font:600 15px/1.4 var(--body);text-decoration:underline;text-underline-offset:3px;cursor:pointer;min-height:44px}
+.fineprint{font-size:14px;color:var(--muted);max-width:52em}
+
+dialog{border:0;border-radius:18px;padding:0;max-width:min(560px,calc(100vw - 32px));width:100%;background:var(--surface);color:var(--ink)}
+dialog::backdrop{background:rgba(10,20,18,.6)}
+dialog .inner{display:grid;gap:16px;padding:24px}
+dialog h3{font-size:22px}
+dialog .photo{aspect-ratio:3/4}
+
+.give-row{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:24px;align-items:start}
+.clip.update video{aspect-ratio:9/16}
+@media (max-width: 860px){.give-row{grid-template-columns:minmax(0,1fr)}.clip.update{max-width:240px;justify-self:center}}
+/* Past fundraisers */
+.past-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:20px;align-items:start}
+.past{display:grid;gap:16px;padding:24px;border:1.5px solid var(--line);border-radius:16px;background:var(--surface)}
+.past header{display:grid;gap:6px}
+.past .eyebrow{color:var(--brand)}
+.past h3{font-size:24px}
+.past p{color:var(--muted);font-size:16px}
+.figs-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0}
+.figs-list div{display:grid;gap:4px;padding:12px;border-radius:12px;background:var(--bg)}
+.figs-list dt{font:500 11px/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.figs-list dd{margin:0;font:700 20px/1.1 var(--display);font-variant-numeric:tabular-nums}
+.sub{display:grid;gap:8px}
+.sub h4{margin:0;font:500 12px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink)}
+.tx{list-style:none;margin:0;padding:0;display:grid;gap:4px;font:400 15px/1.5 var(--mono);font-variant-numeric:tabular-nums}
+.tx li{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dashed var(--line);padding-block:4px}
+.dares{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.dares li{display:grid;grid-template-columns:72px minmax(0,1fr);gap:10px;align-items:center;font-size:15px;color:var(--muted)}
+.dares li span{font:500 13px/1 var(--mono);font-variant-numeric:tabular-nums;padding:5px 8px;border-radius:999px;border:1.5px solid var(--line);text-align:center;color:var(--ink)}
+.dares li.done{color:var(--ink)}
+.dares li.done span{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.dares li.done::after{content:"Done";font:600 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--brand);grid-column:2}
+#receipt-photo{display:grid;gap:10px;max-height:70vh;overflow:auto}
+@media (max-width: 420px){.figs-list{grid-template-columns:minmax(0,1fr)}}
+.press-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px}
+.press-list a{display:grid;gap:6px;height:100%;padding:16px 18px;border:1.5px solid var(--line);border-radius:14px;background:var(--surface);text-decoration:none;color:var(--ink)}
+.press-list a:hover{border-color:var(--brand)}
+.press-list .outlet{font:500 12px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--brand)}
+.press-list .headline{font:600 16px/1.35 var(--body)}
+/* About */
+.about .wrap{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:56px;padding-block:72px;align-items:start}
+.about .text{display:grid;gap:16px;max-width:36em}
+.about .text p{color:var(--muted)}
+.how{display:grid;gap:14px;margin:8px 0 0;padding:0;list-style:none;counter-reset:step}
+.how li{display:grid;grid-template-columns:36px minmax(0,1fr);gap:14px;align-items:start;color:var(--ink)}
+.how li::before{counter-increment:step;content:counter(step);display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--brand);color:var(--bg);font:700 16px/1 var(--display)}
+.press{font:500 14px/1.5 var(--mono);color:var(--muted);letter-spacing:.04em}
+
+footer{background:var(--hero-bg);color:var(--hero-muted)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-between;padding-block:40px;font-size:15px}
+footer strong{color:var(--hero-ink);font-family:var(--display)}
+footer a{color:var(--hero-ink)}
+.copy{user-select:all}
+
+@media (max-width: 860px){
+  .hero .wrap,.chapter .wrap,.about .wrap{grid-template-columns:minmax(0,1fr);gap:32px}
+  .chapter.flip .media{order:0}
+  .hero .photo{aspect-ratio:5/4}
+  .nav{margin-left:0;width:100%}
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="paw" viewBox="290 250 500 560">
+      <ellipse cx="360" cy="440" rx="64" ry="84" transform="rotate(-24 360 440)" fill="currentColor"></ellipse>
+      <ellipse cx="472" cy="345" rx="64" ry="86" transform="rotate(-8 472 345)" fill="currentColor"></ellipse>
+      <ellipse cx="608" cy="345" rx="64" ry="86" transform="rotate(8 608 345)" fill="currentColor"></ellipse>
+      <ellipse cx="720" cy="440" rx="64" ry="84" transform="rotate(24 720 440)" fill="currentColor"></ellipse>
+      <path d="M540 520 C 640 520 735 600 735 690 C 735 770 670 805 600 790 C 570 783 555 776 540 776 C 525 776 510 783 480 790 C 410 805 345 770 345 690 C 345 600 440 520 540 520 Z" fill="currentColor"></path>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#story">
+      <svg viewBox="290 250 500 560" aria-hidden="true"><use href="#paw" x="290" y="250" width="500" height="560"></use><rect x="514" y="578" width="52" height="170" rx="10" fill="var(--hero-bg)"></rect><rect x="455" y="637" width="170" height="52" rx="10" fill="var(--hero-bg)"></rect></svg>
+      Volunteer Vet Collective
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="#story">The story</a>
+      <a href="#k9">Open fundraiser</a>
+      <a href="#receipts">Receipts</a>
+      <a href="#about">About</a>
+      <a class="btn" id="nav-donate" href="#fundraisers">Give</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="story" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Now fundraising · K9 Responder Foundation</p>
+        <h1 id="hero-title">One critically sick dog. <span class="hl">One lifeline for a veteran.</span></h1>
+        <p class="lede">Bumper needs emergency vet care now. Bravo is training to become a psychiatric service dog for a veteran. This month every dollar goes to K9 Responder Foundation to get them both there.</p>
+        <div class="tally" aria-live="polite">
+          <div class="tally-figs"><span class="tally-raised" id="hero-raised">—</span><span class="tally-goal" id="hero-goal"></span></div>
+          <div class="bar" role="progressbar" aria-label="Raised so far" aria-valuemin="0" id="hero-bar"><i></i></div>
+          <p class="tally-note" id="hero-note"></p>
+        </div>
+        <div class="actions">
+          <a class="btn" id="hero-donate" href="#" target="_blank" rel="noopener">Donate to this fundraiser</a>
+          <a class="btn ghost" href="#bumper">Read the story</a>
+        </div>
+      </div>
+      <figure class="photo" style="margin:0" data-photo="hero"></figure>
+    </div>
+  </section>
+
+  <section class="chapter solo" id="k9" aria-labelledby="k9-title">
+    <div class="wrap">
+      <div class="text">
+        <p class="eyebrow">Open fundraiser</p>
+        <h2 id="k9-title">K9 Responder Foundation</h2>
+        <p>They take the dogs other places can't: medical cases, long-stay shelter dogs and dogs rescued from fighting rings. Each dog is treated, then trained, either for a new home or as a psychiatric service dog for someone who needs one.</p>
+        <p>I'm visiting them on December 5 to film the work, so you can see exactly where your money goes.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter flip" id="bumper" aria-labelledby="bumper-title">
+    <div class="wrap">
+      <div class="media reel-wrap">
+        <div class="reel">
+          <video controls muted playsinline preload="metadata" poster="video/bumper-clinic-poster.jpg" aria-label="Video of Bumper at the clinic during his treatment">
+            <source src="video/bumper-clinic.mp4" type="video/mp4">
+          </video>
+          <img src="img/bumper-scale.jpg" alt="Bumper resting on the clinic scale in his cone" loading="lazy">
+          <img src="img/bumper-table.jpg" alt="Bumper curled up on the exam table in his cone" loading="lazy" style="object-position:45% 50%">
+        </div>
+        <p class="reel-hint">Bumper at the clinic. Tap the video to play.</p>
+      </div>
+      <div class="text">
+        <p class="eyebrow">Most urgent</p>
+        <h2 id="bumper-title">Bumper is critically sick</h2>
+        <article class="chart" aria-label="Bumper's case file">
+          <header><span>Case file</span><span class="flag">Critical</span></header>
+          <div class="chart-body">
+            <img src="img/bumper-floor.jpg" alt="Bumper lying on the clinic floor in his cone, stitches where his eyes were" style="object-position:50% 40%">
+            <dl>
+              <dt>Patient</dt><dd>Bumper, 5 years</dd>
+              <dt>Rescue</dt><dd>K9 Responder Foundation</dd>
+              <dt>Surgery</dt><dd>Both eyes removed, 27 October</dd>
+              <dt>Sodium</dt><dd>198. A healthy dog sits around 145.</dd>
+              <dt>Now</dt><dd>Emergency hospital: IV fluids and round-the-clock monitoring</dd>
+              <dt>Estimate</dt><dd>About $6,000, invoice to follow</dd>
+            </dl>
+          </div>
+          <div class="notes">
+            <h3>History</h3>
+            <p>At the end of October, Bumper had surgery to remove both of his eyes. He came through it well. In his foster home he was learning to find his way around in the dark, cone and all, and he was healing the way you hope a dog will.</p>
+            <p>On 8 November he started vomiting and stumbling. His bloodwork showed a sodium level of 198. A healthy dog sits around 145. At that level water is drawn out of the brain, and dogs can have seizures, collapse or die.</p>
+            <p>He was sent straight to an emergency hospital. His sodium can't be brought down quickly, because correcting it too fast causes the brain to swell, so it has to come down slowly, over days, with bloodwork checked through the day and night. The cause isn't known yet, and he needs more tests to find it.</p>
+            <p>K9 Responder has been quoted about $6,000 for his care. They took Bumper on knowing he would need more than most dogs. Paying his bill is the first thing this fundraiser does.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter solo" id="bravo" aria-labelledby="bravo-title">
+    <div class="wrap">
+      <div class="text">
+        <p class="eyebrow">The lifeline</p>
+        <h2 id="bravo-title">Bravo will be a veteran's lifeline</h2>
+        <p>Bravo is a young German shepherd with the temperament for service work. Training turns that into a dog who stands beside a veteran through the hardest days, every day.</p>
+        <article class="chart" aria-label="Bravo's case file">
+          <header><span>Case file</span><span>Training</span></header>
+          <div class="chart-body">
+            <img src="img/bravo.jpg" alt="Bravo, a young German shepherd, sitting on a woodland path with his head tilted" style="object-position:50% 30%">
+            <dl>
+              <dt>Patient</dt><dd>Bravo</dd>
+              <dt>Breed</dt><dd>German shepherd</dd>
+              <dt>Age</dt><dd>1.5 years</dd>
+              <dt>Plan</dt><dd>Psychiatric service-dog training, then placement with a veteran</dd>
+              <dt>Goal</dt><dd>$10,000. Anything over starts a medical fund for future rescues.</dd>
+            </dl>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="fundraisers" aria-labelledby="fund-title">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow" style="color:var(--brand)">K9 Responder Foundation</p>
+        <h2 id="fund-title">The dares</h2>
+        <p>As the K9 Responder total goes up, I do the dares.</p>
+      </div>
+      <div class="give-row">
+        <div class="fund-grid" id="fund-grid"></div>
+        <figure class="clip update">
+          <video controls playsinline preload="metadata" poster="video/charlie-update-poster.jpg" aria-label="Video update from Charlie about Bumper and this fundraiser">
+            <source src="video/charlie-update.mp4" type="video/mp4">
+          </video>
+          <figcaption>My update on Bumper and this fundraiser.</figcaption>
+        </figure>
+      </div>
+      <p class="fineprint" id="fund-fineprint"></p>
+    </div>
+  </section>
+
+  <section id="receipts" aria-labelledby="receipts-title">
+    <div class="wrap" style="padding-block:72px;display:grid;gap:28px">
+      <div class="section-head">
+        <p class="eyebrow" style="color:var(--brand)">Past fundraisers</p>
+        <h2 id="receipts-title">Where the money went</h2>
+        <p>Every fundraiser, what it raised after transaction fees, every transfer sent, and what the money paid for.</p>
+      </div>
+      <div class="past-grid">
+        <article class="past">
+          <header><p class="eyebrow">October 2026 · British Columbia, Canada</p><h3>The Happy Herd Farm Sanctuary</h3></header>
+          <p>A sanctuary for rescued farm animals, with no vet on staff. I spent two days there volunteering and filming their work.</p>
+          <dl class="figs-list">
+            <div><dt>Donated, after fees</dt><dd>$3,543</dd></div>
+            <div><dt>Sent to Happy Herd</dt><dd>$3,545</dd></div>
+            <div><dt>Private donation</dt><dd>$2,000</dd></div>
+          </dl>
+          <div class="sub"><h4>Transfers</h4>
+            <ul class="tx"><li><span>October</span><span>$3,100</span></li><li><span>October</span><span>$235</span></li><li><span>8 Nov</span><span>$210</span></li></ul>
+          </div>
+          <div class="sub"><h4>What it paid for</h4>
+            <ul class="tx">
+              <li><span>Vet medication, 2 Oct</span><span>C$1,168</span></li>
+              <li><span>Feed account payment, 16 Oct</span><span>C$1,374</span></li>
+              <li><span>Emergency vet visit for Scooter, at the end of her life, 1 Nov</span><span>C$783</span></li>
+              <li><span>Feed, 4 Nov</span><span>C$1,871</span></li>
+            </ul></div>
+          <div class="sub"><h4>Dares</h4>
+            <ul class="dares"><li class="done"><span>$1,000</span>Ate Da Bomb hot sauce</li><li class="done"><span>$2,500</span>Indoor skydiving</li><li class="done"><span>$5,000</span>Slept over with the goats</li></ul>
+          </div>
+          <button class="linkbtn" type="button" data-receipt="happy-herd">View receipts</button>
+        </article>
+        <article class="past">
+          <header><p class="eyebrow">October to November 2026 · Ukraine</p><h3>Global Animal Rescue and Response</h3></header>
+          <p>GARR works on Ukraine's front line with local vets, shelters and even human medics: stabilising injured animals, evacuating them from high-risk areas, and getting food and supplies to clinics and shelters.</p>
+          <dl class="figs-list">
+            <div><dt>Donated, after fees</dt><dd>$539</dd></div>
+            <div><dt>Sent to GARR</dt><dd>$539</dd></div>
+            <div><dt>Dog food donated</dt><dd>330 kg</dd></div>
+          </dl>
+          <div class="sub"><h4>Transfers</h4>
+            <ul class="tx"><li><span>3 Nov</span><span>$539 by wire</span></li></ul>
+          </div>
+          <div class="sub"><h4>What it paid for</h4>
+            <ul class="tx">
+              <li><span>120 kg of dog food (eight 15 kg bags), 9 Nov</span><span>about $185</span></li>
+              <li><span>50 litres of diesel to reach a village hit by strikes, 9 Nov</span><span>about $112</span></li>
+            </ul>
+            <p class="fineprint">Paid in hryvnia and converted at the day's rate.</p></div>
+          <div class="sub"><h4>The Royal Canin donation</h4><p>Royal Canin Ukraine is sending a pallet of about 330 kg of pet food to Second Chance shelter, arranged with GARR. It's on its way now, and I'll share footage of it arriving.</p></div>
+          <div class="sub"><h4>Why my trip is postponed</h4><p>I was due to join GARR in Ukraine as a trauma vet. My 14-year-old beagle Lola has been diagnosed with cancer, and I need to be home with her. The trip is postponed, not cancelled, and everything raised has gone to GARR.</p></div>
+          <button class="linkbtn" type="button" data-receipt="garr">View receipts</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band about" id="about" aria-labelledby="about-title">
+    <div class="wrap">
+      <figure class="photo" style="margin:0" data-photo="charlie"></figure>
+      <div class="text">
+        <p class="eyebrow" style="color:var(--brand)">About</p>
+        <h2 id="about-title" style="font-size:clamp(28px,3.6vw,42px)">An emergency vet, one organisation at a time</h2>
+        <p>Charlie is an Australian veterinarian who spent four years in emergency practice before moving to Los Angeles. She missed the work and wanted to keep making a difference, so she started Volunteer Vet Collective: each fundraiser, she picks an animal organisation, visits, films what they do, and raises money for them.</p>
+        <p>Her own income pays for travel and filming. Donations go to the organisations.</p>
+        <ol class="how">
+          <li><span><strong>Pick an organisation.</strong> Rescues, sanctuaries and response teams doing real work, at home and overseas.</span></li>
+          <li><span><strong>Visit and film.</strong> Showing what they do and what they need, on Instagram and TikTok.</span></li>
+          <li><span><strong>Raise and send.</strong> Donations are forwarded to the organisation and the receipt is posted here.</span></li>
+        </ol>
+        <p class="press">As featured in HuffPost, OK! and The Blast</p>
+        <p class="fineprint">Volunteer Vet Collective is being set up as a California nonprofit. Online donations open once its accounts are in place.</p>
+      </div>
+    </div>
+  </section>
+  <section id="press" aria-labelledby="press-title">
+    <div class="wrap" style="padding-block:56px;display:grid;gap:20px">
+      <div class="section-head"><p class="eyebrow" style="color:var(--brand)">In the media</p><h2 id="press-title">Press</h2></div>
+      <ul class="press-list">
+        <li><a href="https://www.huffpost.com/entry/adult-film-star-emergency-veterinarian-rescue-animals_n_6abc4682e4b0ecc03a1d7487" target="_blank" rel="noopener"><span class="outlet">HuffPost</span><span class="headline">My Adult Work Funds My Animal Rescue Series. Some People Can't Handle That.</span></a></li>
+        <li><a href="https://www.huffingtonpost.co.uk/entry/adult-film-star-helping-animals_uk_6ac7b966e4b0e825de12b751" target="_blank" rel="noopener"><span class="outlet">HuffPost UK</span><span class="headline">I'm An Adult Film Star And I Use My Earnings To Help Animals</span></a></li>
+        <li><a href="https://okmagazine.com/p/charlie-forde-takes-on-fiery-hot-sauce-challenge-to-help-rescued-animals/" target="_blank" rel="noopener"><span class="outlet">OK!</span><span class="headline">Charlie Forde takes on a fiery hot sauce challenge to help rescued animals</span></a></li>
+        <li><a href="https://theblast.com/872091/charlie-forde-indoor-skydiving-animal-charity-milestone/" target="_blank" rel="noopener"><span class="outlet">The Blast</span><span class="headline">The indoor skydiving dare for The Happy Herd</span></a></li>
+        <li><a href="https://www.yahoo.com/entertainment/celebrity/articles/adult-film-star-charlie-forde-003013355.html" target="_blank" rel="noopener"><span class="outlet">Yahoo</span><span class="headline">Adult Film Star Charlie Forde Offers Veterinary Help to Animal Charities</span></a></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div style="display:grid;gap:6px"><strong>Volunteer Vet Collective</strong><span>volunteervetcollective.org</span></div>
+    <div style="display:grid;gap:6px"><span>Instagram: <a href="https://www.instagram.com/volunteervetcollective/" target="_blank" rel="noopener">@volunteervetcollective</a></span><span>TikTok: <a href="https://www.tiktok.com/@volunteervetcollective" target="_blank" rel="noopener">@volunteervetcollective</a></span><span>Supplies by post: <span class="copy">PO Box 16614, Encino, CA 91416</span></span></div>
+  </div>
+</footer>
+
+<dialog id="receipt-dialog" aria-labelledby="receipt-title">
+  <div class="inner">
+    <h3 id="receipt-title">Receipt</h3>
+    <p id="receipt-meta" style="color:var(--muted)"></p>
+    <figure class="photo" style="margin:0" id="receipt-photo"></figure>
+    <button class="btn" type="button" id="receipt-close" style="justify-self:end">Close</button>
+  </div>
+</dialog>
+
+<script>
+/* ===== EDIT HERE =====
+   Each fundraiser has its own total and donate link.
+   raised: amount donated after transaction fees (USD). Set to null to hide the tally.
+   donateUrl: the campaign's link on the charity's donation platform. Leave "" until donations open.
+   photos: paste an image URL to replace a placeholder. */
+const SITE = {
+  updated: "9 November 2026",
+  photos: { hero: "img/bumper-cone.jpg", k9: "", bumper: "", bravo: "", charlie: "img/charlie.jpg" },
+  fundraisers: [
+    {
+      id: "k9-responder",
+      org: "K9 Responder Foundation",
+      title: "Save Bumper. Train Bravo for a veteran.",
+      blurb: "Emergency vet treatment for a critically sick dog, then service-dog training for a veteran's new companion.",
+      raised: 316.61,
+      goal: 10000,
+      dares: [
+        [2500, "Run an agility course"],
+        [5000, "Dog-treat taste test"],
+        [7500, "Do a stand-up comedy show"],
+        [10000, "Spend a day dressed as a German shepherd"],
+        [12500, "Creepy-crawly challenge"],
+        [15000, "Trapeze class"]
+      ],
+      donateUrl: "",
+      platform: ""
+    }
+  ],
+  receipts: {
+    "happy-herd": { title: "The Happy Herd Farm Sanctuary", meta: "Transfers to Happy Herd, then the bills the money paid. Personal names, addresses and account details are blacked out.", images: [
+      ["receipts/hh-wise-oct.jpg", "Two transfers to The Happy Herd in October: $3,100 (C$4,332.83) and $235 (C$326.48)"],
+      ["receipts/hh-wise-nov8.jpg", "Transfer to The Happy Herd, 8 November: $210 (C$293.03)"],
+      ["receipts/hh-vet-meds-oct2.jpg", "Vet medication, 2 October: C$1,167.66"],
+      ["receipts/hh-payment-oct16.jpg", "Feed account payment, 16 October: C$1,373.62"],
+      ["receipts/hh-feed-ledger.jpg", "Feed account record"],
+      ["receipts/hh-vet-farmcall-nov3.jpg", "Emergency vet visit for Scooter, 1 November: C$782.99"],
+      ["receipts/hh-feed-nov4.jpg", "Feed, 4 November: C$1,870.63"]
+    ] },
+    "garr": { title: "Global Animal Rescue and Response", meta: "The wire to GARR, then receipts from their team in Ukraine. Personal names are blacked out.", images: [
+      ["receipts/garr-wire-nov3.jpg", "Wire to Global Animal Rescue and Response, 3 November: $539"],
+      ["receipts/garr-dogfood-nov9.jpg", "120 kg of dog food (eight 15 kg bags), 9 November: 8,400 hryvnia"],
+      ["receipts/garr-fuel-nov9.jpg", "50 litres of diesel to reach a village hit by strikes, 9 November: 5,087.86 hryvnia"]
+    ] }
+  }};
+
+const money = n => "$" + Math.floor(n).toLocaleString("en-US");
+const slot = label => `<div class="slot"><svg viewBox="290 250 500 560" aria-hidden="true"><use href="#paw" x="290" y="250" width="500" height="560"></use></svg><span>${label}</span></div>`;
+const labels = { hero: "Photo: Bumper in his cone, stitches across his face", k9: "Photo: A young German shepherd sitting and watching its handler in a field", bumper: "Photo: Bumper lying on the clinic floor in his cone", bravo: "Photo: Bravo, a young German shepherd, sitting on a woodland path with his head tilted", charlie: "Photo: Charlie laughing on a bed with her two beagles" };
+
+document.querySelectorAll("[data-photo]").forEach(el => {
+  const key = el.dataset.photo, src = SITE.photos[key];
+  el.innerHTML = src ? `<img src="${src}" alt="${labels[key].replace("Photo: ", "")}">` : slot(labels[key]);
+});
+
+const f = SITE.fundraisers[0];
+const pct = f.raised == null ? 0 : Math.min(100, f.raised / f.goal * 100);
+document.getElementById("hero-raised").textContent = f.raised == null ? "Tally coming soon" : money(f.raised);
+document.getElementById("hero-goal").textContent = f.raised == null ? `Goal ${money(f.goal)}` : `raised of ${money(f.goal)}`;
+document.getElementById("hero-note").textContent = `Updated ${SITE.updated}`;
+const heroBar = document.getElementById("hero-bar");
+heroBar.setAttribute("aria-valuemax", f.goal);
+heroBar.setAttribute("aria-valuenow", f.raised ?? 0);
+requestAnimationFrame(() => requestAnimationFrame(() => { heroBar.firstElementChild.style.width = pct + "%"; }));
+const heroBtn = document.getElementById("hero-donate");
+if (f.donateUrl) { heroBtn.href = f.donateUrl; } else { heroBtn.removeAttribute("href"); heroBtn.removeAttribute("target"); heroBtn.classList.add("soon"); heroBtn.setAttribute("aria-disabled", "true"); heroBtn.textContent = "Donations open soon"; }
+
+document.getElementById("fund-grid").innerHTML = SITE.fundraisers.map(x => {
+  return `<article class="fund">
+    ${x.dares ? `<ul class="dares">${x.dares.map(([amt, d]) => `<li class="${(x.raised ?? 0) >= amt ? "done" : ""}"><span>${money(amt)}</span>${d}</li>`).join("")}</ul>` : ""}
+    ${x.donateUrl ? `<a class="btn" href="${x.donateUrl}" target="_blank" rel="noopener">Donate to this fundraiser</a>` : `<span class="btn soon" aria-disabled="true">Donations open soon</span>`}
+  </article>`;
+}).join("");
+document.getElementById("fund-fineprint").textContent = `Totals updated ${SITE.updated}.`;
+
+const dlg = document.getElementById("receipt-dialog");
+document.getElementById("receipts").addEventListener("click", e => {
+  const b = e.target.closest("button[data-receipt]"); if (!b) return;
+  const r = SITE.receipts[b.dataset.receipt];
+  document.getElementById("receipt-title").textContent = r.title;
+  document.getElementById("receipt-meta").textContent = r.meta;
+  document.getElementById("receipt-photo").innerHTML = r.images.length ? r.images.map(([src, cap]) => `<figure style="margin:0;display:grid;gap:6px"><img src="${src}" alt="${cap}" style="position:static;width:100%;height:auto;border-radius:10px"><figcaption class="fineprint">${cap}</figcaption></figure>`).join("") : slot("Receipts being added");
+  document.getElementById("receipt-photo").style.aspectRatio = r.images.length ? "auto" : "";
+  dlg.showModal();
+});
+document.getElementById("receipt-close").addEventListener("click", () => dlg.close());
+</script>
+
+</html>
