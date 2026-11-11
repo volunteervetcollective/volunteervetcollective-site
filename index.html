@@ -435,7 +435,7 @@ footer a{color:var(--hero-ink)}
           <li><span><strong>Raise and send.</strong> Donations are forwarded to the organisation and the receipt is posted here.</span></li>
         </ol>
         <p class="press">As featured in HuffPost, OK! and The Blast</p>
-        <p class="fineprint">Volunteer Vet Collective is being set up as a California nonprofit. Online donations open once its accounts are in place.</p>
+        <p class="fineprint">Volunteer Vet Collective is being set up as a California nonprofit. Until it is approved, donations go through GoFundMe and are not tax-deductible.</p>
       </div>
     </div>
   </section>
@@ -473,7 +473,7 @@ footer a{color:var(--hero-ink)}
 /* ===== EDIT HERE =====
    Each fundraiser has its own total and donate link.
    raised: amount donated after transaction fees (USD). Set to null to hide the tally.
-   donateUrl: the campaign's link on the charity's donation platform. Leave "" until donations open.
+   donateUrl: GoFundMe for now; swap for the Givebutter campaign link once the charity is approved.
    photos: paste an image URL to replace a placeholder. */
 const SITE = {
   updated: "9 November 2026",
@@ -494,8 +494,8 @@ const SITE = {
         [12500, "Creepy-crawly challenge"],
         [15000, "Trapeze class"]
       ],
-      donateUrl: "",
-      platform: ""
+      donateUrl: "https://www.gofundme.com/f/world-vet-volunteer-series",
+      platform: "GoFundMe"
     }
   ],
   receipts: {
