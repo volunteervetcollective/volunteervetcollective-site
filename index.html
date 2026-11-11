@@ -194,6 +194,7 @@ dialog .photo{aspect-ratio:3/4}
 .dares li{display:grid;grid-template-columns:72px minmax(0,1fr);gap:10px;align-items:center;font-size:15px;color:var(--muted)}
 .dares li span{font:500 13px/1 var(--mono);font-variant-numeric:tabular-nums;padding:5px 8px;border-radius:999px;border:1.5px solid var(--line);text-align:center;color:var(--ink)}
 .dares li.done{color:var(--ink)}
+.dares.on-hold{opacity:.6}
 .dares li.done span{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 .dares li.done::after{content:"Done";font:600 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--brand);grid-column:2}
 #receipt-photo{display:grid;gap:10px;max-height:70vh;overflow:auto}
@@ -350,7 +351,7 @@ footer a{color:var(--hero-ink)}
       <div class="section-head">
         <p class="eyebrow" style="color:var(--brand)">K9 Responder Foundation</p>
         <h2 id="fund-title">The dares</h2>
-        <p>As the K9 Responder total goes up, I do the dares.</p>
+        <p>These dares are on hold. GoFundMe doesn't allow dares linked to donations, so I can't offer them while donations go through GoFundMe. Once the charity moves to its own donation platform, they'll be back, and I'll post an update here and on Instagram and TikTok.</p>
       </div>
       <div class="give-row">
         <div class="fund-grid" id="fund-grid"></div>
@@ -486,6 +487,7 @@ const SITE = {
       blurb: "Emergency vet treatment for a critically sick dog, then service-dog training for a veteran's new companion.",
       raised: 316.61,
       goal: 10000,
+      daresOnHold: true,
       dares: [
         [2500, "Run an agility course"],
         [5000, "Dog-treat taste test"],
@@ -538,7 +540,7 @@ if (f.donateUrl) { heroBtn.href = f.donateUrl; } else { heroBtn.removeAttribute(
 
 document.getElementById("fund-grid").innerHTML = SITE.fundraisers.map(x => {
   return `<article class="fund">
-    ${x.dares ? `<ul class="dares">${x.dares.map(([amt, d]) => `<li class="${(x.raised ?? 0) >= amt ? "done" : ""}"><span>${money(amt)}</span>${d}</li>`).join("")}</ul>` : ""}
+    ${x.dares ? `<ul class="dares${x.daresOnHold ? " on-hold" : ""}">${x.dares.map(([amt, d]) => `<li class="${!x.daresOnHold && (x.raised ?? 0) >= amt ? "done" : ""}"><span>${money(amt)}</span>${d}</li>`).join("")}</ul>` : ""}
     ${x.donateUrl ? `<a class="btn" href="${x.donateUrl}" target="_blank" rel="noopener">Donate to this fundraiser</a>` : `<span class="btn soon" aria-disabled="true">Donations open soon</span>`}
   </article>`;
 }).join("");
