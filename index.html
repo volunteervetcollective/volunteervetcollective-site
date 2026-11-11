@@ -120,11 +120,19 @@ section{scroll-margin-top:84px}
 .thumbs img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:12px;display:block}
 .chart-body{display:grid;grid-template-columns:clamp(110px,34%,220px) minmax(0,1fr)}
 .chart-body img{width:100%;height:100%;min-height:200px;object-fit:cover;display:block;border-right:1.5px dashed var(--line)}
-.chart .notes{display:grid;gap:12px;padding:16px 18px 20px;border-top:1.5px dashed var(--line)}
+.chart .notes{display:block;padding:16px 18px 20px;border-top:1.5px dashed var(--line)}
+.chart .notes > * + *{margin-top:12px}
+.case-clip{float:right;width:170px;margin:0 0 12px 20px}
+.case-clip video{width:100%;aspect-ratio:356/634;border-radius:12px;background:var(--slot);display:block}
+.case-clip figcaption{font:400 12px/1.4 var(--mono);color:var(--muted);margin-top:6px}
+.chart .notes::after{content:"";display:block;clear:both}
+@media (max-width: 480px){.case-clip{float:none;width:160px;margin:0 auto 12px}}
 .chart .notes h3{font:500 13px/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .chart .notes p{color:var(--ink);font-size:16px}
 @media (max-width: 480px){.chart dl{grid-template-columns:minmax(0,1fr);gap:2px 0;padding:12px 14px}.chart dd{margin-bottom:8px}.chart-body{grid-template-columns:minmax(0,1fr)}.chart-body img{height:auto;min-height:0;aspect-ratio:3/2;border-right:0;border-bottom:1.5px dashed var(--line)}}
-.chapter.solo .wrap{grid-template-columns:minmax(0,1fr);max-width:860px}
+.chapter.solo .wrap{grid-template-columns:minmax(0,1fr);max-width:820px;margin-inline:auto}
+.chapter.solo .text{max-width:none}
+.chapter.solo .text > p{max-width:40em}
 .flag{display:inline-block;padding:2px 10px;border-radius:999px;background:var(--accent);color:var(--on-accent);font:600 12px/1.6 var(--mono);letter-spacing:.04em;text-transform:uppercase}
 
 /* Fundraisers */
@@ -278,18 +286,8 @@ footer a{color:var(--hero-ink)}
     </div>
   </section>
 
-  <section class="chapter flip" id="bumper" aria-labelledby="bumper-title">
+  <section class="chapter solo" id="bumper" aria-labelledby="bumper-title">
     <div class="wrap">
-      <div class="media reel-wrap">
-        <div class="reel">
-          <video controls muted playsinline preload="metadata" poster="video/bumper-clinic-poster.jpg" aria-label="Video of Bumper at the clinic during his treatment">
-            <source src="video/bumper-clinic.mp4" type="video/mp4">
-          </video>
-          <img src="img/bumper-scale.jpg" alt="Bumper resting on the clinic scale in his cone" loading="lazy">
-          <img src="img/bumper-table.jpg" alt="Bumper curled up on the exam table in his cone" loading="lazy" style="object-position:45% 50%">
-        </div>
-        <p class="reel-hint">Bumper at the clinic. Tap the video to play.</p>
-      </div>
       <div class="text">
         <p class="eyebrow">Most urgent</p>
         <h2 id="bumper-title">Bumper is critically sick</h2>
@@ -307,6 +305,12 @@ footer a{color:var(--hero-ink)}
             </dl>
           </div>
           <div class="notes">
+            <figure class="case-clip">
+              <video controls muted playsinline preload="metadata" poster="video/bumper-clinic-poster.jpg" aria-label="Video of Bumper at the clinic during his treatment">
+                <source src="video/bumper-clinic.mp4" type="video/mp4">
+              </video>
+              <figcaption>Bumper at the clinic. Tap to play.</figcaption>
+            </figure>
             <h3>History</h3>
             <p>At the end of October, Bumper had surgery to remove both of his eyes. He came through it well. In his foster home he was learning to find his way around in the dark, cone and all, and he was healing the way you hope a dog will.</p>
             <p>On 8 November he started vomiting and stumbling. His bloodwork showed a sodium level of 198. A healthy dog sits around 145. At that level water is drawn out of the brain, and dogs can have seizures, collapse or die.</p>
