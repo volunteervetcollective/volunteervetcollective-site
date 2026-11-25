@@ -41,7 +41,13 @@ h1,h2,h3{font-family:var(--display);line-height:1.1;text-wrap:balance;margin:0}
 p{margin:0}
 a{color:var(--brand)}
 :focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
-.promo{background:var(--accent);color:var(--on-accent);font:500 15px/1.4 var(--body)}
+.giving{display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px;margin:0 0 28px;padding:18px 20px;border-radius:16px;background:var(--accent);color:var(--on-accent);box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.giving .g-text{flex:1 1 260px}
+.giving .g-kicker{display:block;font:500 12px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.giving .g-head{display:block;font:700 22px/1.2 var(--display)}
+.giving .g-sub{display:block;font:500 15px/1.4 var(--body);margin-top:4px}
+.giving .btn{background:var(--on-accent);color:var(--accent);flex:0 0 auto}
+.promo{background:var(--accent);color:var(--on-accent);font:500 16px/1.4 var(--body)}
 .promo .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 14px;padding-block:9px;text-align:center}
 .promo strong{font-family:var(--display);font-weight:700}
 .promo a{color:inherit;font-weight:600;text-decoration:underline;text-underline-offset:3px}
@@ -276,6 +282,14 @@ footer a{color:var(--hero-ink)}
   <section class="hero" id="story" aria-labelledby="hero-title">
     <div class="wrap">
       <div>
+        <div class="giving" data-ends="2026-12-01T07:59:59Z">
+          <div class="g-text">
+            <span class="g-kicker">Giving week · ends Monday 30 November</span>
+            <span class="g-head">Put your dog in Bravo's painting</span>
+            <span class="g-sub">Give $25 or more and your dog goes into a painting we're gifting to the veteran or first responder who takes Bravo home.</span>
+          </div>
+          <a class="btn" href="#painting">See how</a>
+        </div>
         <p class="eyebrow">Now fundraising · K9 Responder Foundation</p>
         <h1 id="hero-title">One rescue not out of the woods. <span class="hl">One lifeline for a veteran.</span></h1>
         <p class="lede">Bumper is home from the emergency hospital, and his bill has come in. Bravo is training to become a psychiatric service dog for a veteran or first responder. This month every dollar goes to K9 Responder Foundation to get them both there.</p>
