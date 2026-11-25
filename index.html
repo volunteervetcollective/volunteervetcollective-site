@@ -41,6 +41,16 @@ h1,h2,h3{font-family:var(--display);line-height:1.1;text-wrap:balance;margin:0}
 p{margin:0}
 a{color:var(--brand)}
 :focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+.promo{background:var(--accent);color:var(--on-accent);font:500 15px/1.4 var(--body)}
+.promo .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 14px;padding-block:9px;text-align:center}
+.promo strong{font-family:var(--display);font-weight:700}
+.promo a{color:inherit;font-weight:600;text-decoration:underline;text-underline-offset:3px}
+#painting{scroll-margin-top:140px}
+.painting{margin-top:24px;padding:20px 22px;border:2px solid var(--accent);border-radius:14px;background:var(--surface)}
+.painting h3{font-size:22px;margin:6px 0 10px}
+.painting p{margin:0 0 10px}
+.painting ol{margin:0 0 12px;padding-left:20px}
+.painting .eyebrow{color:var(--accent)}
 .wrap{max-width:var(--wrap);margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .eyebrow{font:500 13px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase}
 
@@ -239,6 +249,13 @@ footer a{color:var(--hero-ink)}
   </defs>
 </svg>
 
+<div class="promo" id="promo" data-ends="2026-12-01T07:59:59Z">
+  <div class="wrap">
+    <span><strong>This week only:</strong> donate $25 or more and your dog goes into a painting for Bravo's future owner. Ends Monday 30 November.</span>
+    <a href="#painting">How it works</a>
+  </div>
+</div>
+
 <header class="top">
   <div class="wrap">
     <a class="brand" href="#story">
@@ -344,6 +361,16 @@ footer a{color:var(--hero-ink)}
             </dl>
           </div>
         </article>
+        <div class="painting" id="painting" data-ends="2026-12-01T07:59:59Z">
+          <p class="eyebrow">This week only · ends Monday 30 November, 11:59pm PT</p>
+          <h3>Put your dog in Bravo's painting</h3>
+          <p>We're still a long way off the goal for Bravo's training, so I'm trying something different. Everyone who gives $25 or more this week will have their dog added to a painting that goes to Bravo's future owner, a reminder of everyone who helped get him there.</p>
+          <ol>
+            <li>Donate $25 or more on GoFundMe by Monday 30 November, 11:59pm Pacific.</li>
+            <li>In your donation message on GoFundMe, tell me your dog's name and where I can find a photo of them, for example your Instagram handle.</li>
+          </ol>
+          <a class="btn" href="https://www.gofundme.com/f/world-vet-volunteer-series" target="_blank" rel="noopener">Donate and add your dog</a>
+        </div>
       </div>
     </div>
   </section>
